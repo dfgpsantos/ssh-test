@@ -2,33 +2,34 @@
 
 TIME=3600
 TESTNUMBER=1
-DESTINATION=172.16.100.11
+DESTINATION=172.16.230.11
+PORT=80
 
 while [[ $TIME -gt 0 ]];
 
 do
 
-HOSTNAME=$(ssh $DESTINATION -i .ssh/prod-02a "cat /etc/hostname")
+HOSTNAME=$(ssh $DESTINATION -i rsa-key.private -p $PORT "cat /etc/hostname")
 
 if [[ -z  $HOSTNAME  ]];
 
 then
 
-echo "Test $TESTNUMBER connection to $DESTINATION has failed!"
+echo "Test $TESTNUMBER SSH connection to $DESTINATION has failed!"
 
 TESTNUMBER=$(( $TESTNUMBER + 1))
-TIME=$(( $TIME - 1))
+TIME=$(( $TIME - 2))
 
-sleep 1
+sleep 2
 
 else
 
-echo "Test $TESTNUMBER connection to $HOSTNAME was Succesful!"
+echo "Test $TESTNUMBER SSH connection to $HOSTNAME using port $PORT was Succesful!"
 
 TESTNUMBER=$(( $TESTNUMBER + 1))
-TIME=$(( $TIME - 1))
+TIME=$(( $TIME - 2))
 
-sleep 1
+sleep 2
 
 fi
 
